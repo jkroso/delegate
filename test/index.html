@@ -2,6 +2,24 @@
   <head>
     <title>Event</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style>
+      li a {
+        padding: 10px;
+        background: #ccc;
+        border: 1px solid black;
+        display: block;
+      }
+      li {
+        padding: 5px;
+      }
+      ul {
+        list-style:none;
+      }
+      #list-two li {
+        padding: 20px;
+        background: blue;
+      }
+    </style>
   </head>
   <body>
     <ul>
@@ -11,7 +29,10 @@
     </ul>
 
     <ul id="list-two">
-      <li><a href="#">One</a></li>
+      <li>
+        <span>Clicking in here won't work</span>
+        <a href="#">But here will</a>
+      </li>
     </ul>
 
     <button>Button</button>
@@ -23,7 +44,7 @@
       var uls = document.querySelectorAll('ul');
       var n = 0;
 
-      var fn = delegate.bind(uls[0], 'li a', 'click', function(e){
+      var fn = delegate.bind(uls[0], 'li', 'click', function(e){
         console.log(e.target);
         if (++n >= 3) {
           console.log('unbind');
