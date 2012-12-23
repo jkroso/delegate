@@ -34,12 +34,25 @@ Element.prototype.matchesSelector = Element.prototype.matchesSelector
 
 exports.bind = function(el, selector, type, fn, capture){
 	return bind(el, type, function delegator (e) {
-		var target = e.target
-		while (target !== this) {
-			if (target.matchesSelector(selector)) return fn.call(target, e)
-			target = target.parentElement
-		}
+		if (e.delegateTarget = match(e.target, this, selector))
+			fn.call(e.delegateTarget, e)
 	}, capture)
+}
+
+/**
+ * Look for an element witch matches the selector
+ *
+ * @param {Element} bottom the starting place for the search
+ * @param {Element} top bottom must be within this
+ * @param {String} selector a css query used to determine if a node matches
+ * @return {Element|undefined}
+ */
+exports.match = match
+function match (bottom, top, selector) {
+	while (bottom !== top) {
+		if (bottom.matchesSelector(selector)) return bottom
+		bottom = bottom.parentElement
+	}
 }
 
 /**
