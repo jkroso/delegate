@@ -1,27 +1,9 @@
-
-/**
- * Module dependencies.
- */
-
 var bind = require('event').bind
-
-// Shim browser support
-Element.prototype.matchesSelector = Element.prototype.matchesSelector
-	|| Element.prototype.webkitMatchesSelector
-	|| Element.prototype.mozMatchesSelector
-	|| Element.prototype.msMatchesSelector
-	|| Element.prototype.oMatchesSelector
-	|| function (selector) {
-		var nodes = this.parentNode.querySelectorAll(selector)
-		  , len = nodes.length
-		while (len--) if (nodes[len] === this) return true
-		return false
-	}
+  , globalize = require('dom-query').expand
 
 /**
- * Delegate event `type` to `selector`
- * and invoke `fn(e)`. A callback function
- * is returned which may be passed to `.unbind()`.
+ * Delegate event `type` to `selector` and invoke `fn(e)`.
+ * A callback function is returned which may be passed to `.unbind()`.
  *
  * @param {Element} el
  * @param {String} selector
@@ -32,25 +14,32 @@ Element.prototype.matchesSelector = Element.prototype.matchesSelector
  * @api public
  */
 
-exports.bind = function(el, selector, type, fn, capture){
+function delegate (el, selector, type, fn, capture){
+	selector = globalize(selector, el)
 	return bind(el, type, function delegator (e) {
-		if (e.delegateTarget = match(e.target, this, selector))
-			fn.call(e.delegateTarget, e)
+		if (e.delegate = match(e.target, this, selector)) {
+			fn.call(e.delegate, e)
+		}
 	}, capture)
 }
 
 /**
- * Look for an element witch matches the selector
+ * Return the first Element between bottom and top that matches the selector
  *
- * @param {Element} bottom the starting place for the search
- * @param {Element} top bottom must be within this
- * @param {String} selector a css query used to determine if a node matches
- * @return {Element|undefined}
+ * @param {Element} bottom
+ * @param {Element} top the context for the search
+ * @param {String} selector
+ * @return {Element}
  */
-exports.match = match
+
 function match (bottom, top, selector) {
+	var nodes = top.querySelectorAll(selector)
+	  , len = nodes.length
+
 	while (bottom !== top) {
-		if (bottom.matchesSelector(selector)) return bottom
+		for (var i = 0; i < len; i++) {
+			if (nodes[i] === bottom) return bottom
+		}
 		bottom = bottom.parentElement
 	}
 }
@@ -66,3 +55,5 @@ function match (bottom, top, selector) {
  */
 
 exports.unbind = require('event').unbind
+exports.match = match
+exports.bind = delegate

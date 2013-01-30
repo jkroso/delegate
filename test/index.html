@@ -40,12 +40,15 @@
     <script src="../build/build.js"></script>
 
     <script>
+      function assert (bool, msg) {
+        if (!bool) throw new Error(msg || 'failed')
+      }
       var delegate = require('delegate');
       var uls = document.querySelectorAll('ul');
       var n = 0;
 
       var fn = delegate.bind(uls[0], 'li', 'click', function(e){
-        console.log(e.target);
+        console.log(this);
         if (++n >= 3) {
           console.log('unbind');
           delegate.unbind(uls[0], 'click', fn, false);
@@ -53,12 +56,16 @@
       }, false);
 
       var fn2 = delegate.bind(uls[1], 'li a', 'click', function(e){
-        console.log(e.target);
+        console.log(this);
         if (++n >= 8) {
           console.log('unbind');
           delegate.unbind(uls[1], 'click', fn2, false);
         }
       }, false);
+
+      delegate.bind(uls[0], 'ul li a', 'click', function (e) {
+        console.error('Its broken')
+      })
     </script>
   </body>
 </html>
