@@ -2,9 +2,14 @@
   "name": "delegate",
   "description": "Event delegation component",
   "version": "0.2.1",
-  "keywords": ["event", "events", "delegate", "delegation"],
+  "keywords": [
+    "event",
+    "events",
+    "delegate",
+    "delegation"
+  ],
   "dependencies": {
-    "event": "https://github.com/component/event/tarball/master",
-    "dom-query": "https://github.com/jkroso/dom-query/tarball/master"
+    "dom-query": "git://github.com/jkroso/dom-query",
+    "event": "git://github.com/jkroso/event"
   }
 }
