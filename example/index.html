@@ -1,0 +1,71 @@
+<html>
+  <head>
+    <title>Event</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <style>
+      li a {
+        padding: 10px;
+        background: #ccc;
+        border: 1px solid black;
+        display: block;
+      }
+      li {
+        padding: 5px;
+      }
+      ul {
+        list-style:none;
+      }
+      #list-two li {
+        padding: 20px;
+        background: blue;
+      }
+    </style>
+  </head>
+  <body>
+    <ul>
+      <li><a href="#">One</a></li>
+      <li><a href="#">Two</a></li>
+      <li><a href="#">Three</a></li>
+    </ul>
+
+    <ul id="list-two">
+      <li>
+        <span>Clicking in here won't work</span>
+        <a href="#">But here will</a>
+      </li>
+    </ul>
+
+    <button>Button</button>
+
+    <script src="../build/build.js"></script>
+
+    <script>
+      function assert (bool, msg) {
+        if (!bool) throw new Error(msg || 'failed')
+      }
+      var delegate = require('delegate');
+      var uls = document.querySelectorAll('ul');
+      var n = 0;
+
+      var fn = delegate.bind(uls[0], 'li', 'click', function(e){
+        console.log(this);
+        if (++n >= 3) {
+          console.log('unbind');
+          delegate.unbind(uls[0], 'click', fn, false);
+        }
+      }, false);
+
+      var fn2 = delegate.bind(uls[1], 'li a', 'click', function(e){
+        console.log(this);
+        if (++n >= 8) {
+          console.log('unbind');
+          delegate.unbind(uls[1], 'click', fn2, false);
+        }
+      }, false);
+
+      delegate.bind(uls[0], 'ul li a', 'click', function (e) {
+        console.error('Its broken')
+      })
+    </script>
+  </body>
+</html>
