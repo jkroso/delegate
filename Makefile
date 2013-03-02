@@ -1,11 +1,8 @@
 
-build: components index.js
-	@component build
-
-components: component.json
-	@component install --dev
-
-clean:
-	rm -fr build components
-
-.PHONY: clean
+test/built.js: index.js test/*
+	@node_modules/.bin/sourcegraph.js test/browser.js \
+		--plugins mocha,nodeish,javascript \
+		| node_modules/.bin/bigfile \
+		 	--export null \
+		 	--plugins nodeish,javascript > test/built.js
+		 	
