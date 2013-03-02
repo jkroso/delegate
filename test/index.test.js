@@ -73,6 +73,17 @@ describe('.bind(el, selector, type, fn, capture)', function(){
     happen.click(a)
     spy.should.have.been.called.twice
   })
+
+  it('should handle elements moving after being bound', function () {
+    delegate(target, 'a', 'click', spy)
+    delegate(target, 'b', 'click', spy)
+    var div = document.createElement('div')
+    document.body.appendChild(div)
+    div.appendChild(target)
+    happen.click(a)
+    spy.should.have.been.called.once
+    document.body.removeChild(div)
+  })
 })
 
 describe('unbind(el, type, fn, capture)', function () {
