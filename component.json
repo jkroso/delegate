@@ -2,11 +2,11 @@
   "name": "delegate",
   "repo": "component/delegate",
   "description": "Event delegation component",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "keywords": ["event", "events", "delegate", "delegation"],
   "dependencies": {
     "component/event": "*",
-    "jkroso/dom-query": "*"
+    "jkroso/unique-selector": "*"
   },
   "scripts": [
     "index.js"
