@@ -1,5 +1,6 @@
+
 var bind = require('event').bind
-  , globalize = require('dom-query').expand
+  , unique = require('unique-selector')
 
 /**
  * Delegate event `type` to `selector` and invoke `fn(e)`.
@@ -15,9 +16,13 @@ var bind = require('event').bind
  */
 
 function delegate (el, selector, type, fn, capture){
-	selector = globalize(selector, el)
+	var path = unique(el) + ' '
 	return bind(el, type, function delegator (e) {
-		if (e.delegate = match(e.target, this, selector)) {
+		// ensure css path
+		if (document.querySelector(path) !== this) {
+			path = unique(this) + ' '
+		}
+		if (e.delegate = match(e.target, this, path + selector)) {
 			fn.call(e.delegate, e)
 		}
 	}, capture)
