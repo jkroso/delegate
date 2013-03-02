@@ -84,6 +84,12 @@ describe('.bind(el, selector, type, fn, capture)', function(){
     spy.should.have.been.called.once
     document.body.removeChild(div)
   })
+
+  it('should run the query in the context of the element being bound to', function () {
+    delegate(test, '#test a', 'click', spy)
+    happen.click(a)
+    spy.should.not.have.been.called
+  })
 })
 
 describe('unbind(el, type, fn, capture)', function () {
