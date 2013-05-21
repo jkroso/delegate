@@ -4,6 +4,7 @@ var delegate = require('..').bind
   , chai = require('chai')
   , spies = require('chai-spies')
   , should = chai.should()
+  , happen = require('happen/src/happen')
 
 chai.use(spies)
 

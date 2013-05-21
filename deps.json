@@ -1,0 +1,6 @@
+{
+  "production": {
+    "unique-selector": "http://github.com/jkroso/unique-selector/tarball/0.0.2",
+    "event": "http://github.com/component/event/tarball/0.1.0"
+  }
+}
